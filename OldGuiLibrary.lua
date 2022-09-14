@@ -190,7 +190,7 @@ vapeoptionsbutton.Position = UDim2.new(0, 108, 0, 4)
 vapeoptionsbutton.BackgroundColor3 = Color3.fromRGB(15, 20, 26)
 vapeoptionsbutton.TextSize = 26
 vapeoptionsbutton.Font = Enum.Font.SourceSans
-vapeoptionsbutton.Text = "?"
+vapeoptionsbutton.Text = "⚙"
 vapeoptionsbutton.Size = UDim2.new(0, 32, 0, 32)
 vapeoptionsbutton.Name = "OptionsButton"
 vapeoptionsbutton.Parent = topbar
@@ -209,7 +209,7 @@ uilistlayout:GetPropertyChangedSignal("AbsoluteContentSize"):connect(function()
 	vapeoptionsframe.Size = UDim2.new(0, 181, 0, uilistlayout.AbsoluteContentSize.Y)
 end)
 local vapesearchbutton = vapeoptionsbutton:Clone()
-vapesearchbutton.Text = "??"
+vapesearchbutton.Text = "🔍"
 vapesearchbutton.Name = "SearchButton"
 vapesearchbutton.Position = UDim2.new(0, 144, 0, 4)
 vapesearchbutton.Parent = topbar
@@ -502,7 +502,7 @@ api["CreateCustomWindow"] = function(name, icon, position, visible)
 	expandbutton.TextSize = 20
 	expandbutton.Size = UDim2.new(0, 25, 0, 40)
 	expandbutton.Position = UDim2.new(1, -25, 0, 0)
-	expandbutton.Text = "??"
+	expandbutton.Text = "📍"
 	expandbutton.Name = "PinButton"
 	expandbutton.BackgroundTransparency = 1
 	expandbutton.TextTransparency = 0.3
@@ -862,7 +862,7 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			end
 		end
 		if expandedmenu then
-			button2.Text = "?\n?\n?"
+			button2.Text = "·\n·\n·"
 		else
 			button2.Text = ""
 			buttonapi["ToggleExpanded"] = function() end
@@ -1773,7 +1773,7 @@ api["LoadedAnimation"] = function()
 		welcomeicon.Name = "WelcomeIcon"
 		welcomeicon.BackgroundTransparency = 1
 		welcomeicon.TextSize = 28
-		welcomeicon.Text = "??"
+		welcomeicon.Text = "ℹ️"
 		welcomeicon.Position = UDim2.new(0, 1, 0, 2)
 		welcomeicon.Size = UDim2.new(0, 30, 0, 36)
 		welcomeicon.Font = Enum.Font.SourceSans

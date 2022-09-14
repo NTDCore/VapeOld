@@ -2,7 +2,7 @@ local VERSION = "v4.00"
 local rainbowvalue = 0
 local cam = game:GetService("Workspace").CurrentCamera
 local mouse = game:GetService("Players").LocalPlayer:GetMouse()
-local api = {
+local Api = {
 	["Settings"] = {["GUIObject"] = {["Type"] = "Custom", ["GUIKeybind"] = "RightShift", ["BlatantMode"] = false, ["Color"] = 0.44}, ["SearchObject"] = {["Type"] = "Custom", ["List"] = {}}},
 	["FriendsObject"] = {["Color"] = 0.44, ["Friends"] = {}, ["MiddleClickFriends"] = false, ["MiddleClickFunc"] = function(plr) end},
 	["ObjectsThatCanBeSaved"] = {},
@@ -33,7 +33,7 @@ local function randomString()
 	return table.concat(array)
 end
 
-api["findObjectInTable"] = function(temp, object)
+Api["findObjectInTable"] = function(temp, object)
     for i,v in pairs(temp) do
         if i == object or v == object then
             return true
@@ -97,38 +97,38 @@ if not is_sirhurt_closure and syn and syn.protect_gui then
     gui.DisplayOrder = 999
     syn.protect_gui(gui)
     gui.Parent = game:GetService("CoreGui")
-    api["MainGui"] = gui
+    Api["MainGui"] = gui
 	shared.gui = gui
 elseif PROTOSMASHER_LOADED and get_hidden_gui then
     local gui = Instance.new("ScreenGui")
     gui.Name = randomString()
     gui.DisplayOrder = 999
     gui.Parent = get_hidden_gui()
-    api["MainGui"] = gui
+    Api["MainGui"] = gui
 elseif elysianexecute and gethui then
     local gui = Instance.new("ScreenGui")
     gui.Name = randomString()
     gui.DisplayOrder = 999
     gui.Parent = gethui()
-    api["MainGui"] = gui
+    Api["MainGui"] = gui
 elseif game:GetService("CoreGui"):FindFirstChild('RobloxGui') then
-    api["MainGui"] = game:GetService("CoreGui").RobloxGui
+    Api["MainGui"] = game:GetService("CoreGui").RobloxGui
 else
     local gui = Instance.new("ScreenGui")
     gui.Name = randomString()
     gui.DisplayOrder = 999
     gui.Parent = game:GetService("ScreenGui")
-    api["MainGui"] = gui
+    Api["MainGui"] = gui
 end
 
-api["UpdateHudEvent"] = Instance.new("BindableEvent")
+Api["UpdateHudEvent"] = Instance.new("BindableEvent")
 
 local clickgui = Instance.new("Frame")
 clickgui.Name = "ClickGui"
 clickgui.Size = UDim2.new(1, 0, 1, 0)
 clickgui.BackgroundTransparency = 1
 clickgui.Visible = false
-clickgui.Parent = api["MainGui"]
+clickgui.Parent = Api["MainGui"]
 local vertext = Instance.new("TextLabel")
 vertext.Name = "Version"
 vertext.Size = UDim2.new(0, 100, 0, 20)
@@ -218,12 +218,12 @@ hudgui.Name = "HudGui"
 hudgui.Size = UDim2.new(1, 0, 1, 0)
 hudgui.BackgroundTransparency = 1
 hudgui.Visible = true
-hudgui.Parent = api["MainGui"]
+hudgui.Parent = Api["MainGui"]
 
 local function CreateTopBarOption(typeval, name, ...)
 	local args = {...}
 	if typeval == "Toggle" then
-		local buttonapi = {}
+		local buttonApi = {}
 		local amount = #vapeoptionsframe:GetChildren()
 		local frame = Instance.new("Frame")
 		frame.BorderSizePixel = 0
@@ -237,7 +237,7 @@ local function CreateTopBarOption(typeval, name, ...)
 		button.Name = "Toggle"
 		button.AutoButtonColor = false
 		button.Text = ""
-		button.BackgroundColor3 = (args[3] and Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)) or Color3.fromRGB(89, 89, 89)
+		button.BackgroundColor3 = (args[3] and Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)) or Color3.fromRGB(89, 89, 89)
 		button.BorderSizePixel = 0
 		button.Size = UDim2.new(0, 22, 0, 15)
 		button.Position = UDim2.new(0, 5, 0, 3)
@@ -269,13 +269,13 @@ local function CreateTopBarOption(typeval, name, ...)
 		textlabel.Text = "                "..name
 		textlabel.ZIndex = 13
 		textlabel.Parent = frame
-		buttonapi["Enabled"] = false
-		buttonapi["Keybind"] = ""
-		buttonapi["Default"] = args[3]
-		buttonapi["ToggleButton"] = function(toggle)
-			buttonapi["Enabled"] = toggle
-			if buttonapi["Enabled"] then
-				button.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+		buttonApi["Enabled"] = false
+		buttonApi["Keybind"] = ""
+		buttonApi["Default"] = args[3]
+		buttonApi["ToggleButton"] = function(toggle)
+			buttonApi["Enabled"] = toggle
+			if buttonApi["Enabled"] then
+				button.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 				frame2.Position = UDim2.new(0, 8, 0, 2)
 				args[1]()
 			else
@@ -285,14 +285,14 @@ local function CreateTopBarOption(typeval, name, ...)
 				args[2]()
 			end
 		end
-		buttonapi["ToggleButton"](args[3])
-		button.MouseButton1Click:connect(function() buttonapi["ToggleButton"](not buttonapi["Enabled"]) end)
-		api["ObjectsThatCanBeSaved"]["VapeOptions"..name.."Toggle"] = {["Type"] = "NewToggle", ["Object"] = button, ["Api"] = buttonapi}
+		buttonApi["ToggleButton"](args[3])
+		button.MouseButton1Click:connect(function() buttonApi["ToggleButton"](not buttonApi["Enabled"]) end)
+		Api["ObjectsThatCanBeSaved"]["VapeOptions"..name.."Toggle"] = {["Type"] = "NewToggle", ["Object"] = button, ["Api"] = buttonaAi}
 
-		return buttonapi
+		return buttonApi
 	end
 	if typeval == "GUIButton" then
-		local buttonapi = {}
+		local buttonApi = {}
 		local amount = #vapeoptionsframe:GetChildren()
 		local frame = Instance.new("Frame")
 		frame.BorderSizePixel = 0
@@ -315,15 +315,15 @@ local function CreateTopBarOption(typeval, name, ...)
 		textbutton.Text = name
 		textbutton.ZIndex = 13
 		textbutton.Parent = frame
-		buttonapi["Object"] = textbutton
+		buttonApi["Object"] = textbutton
 		
 		textbutton.MouseButton1Click:connect(function() args[1]() end)
-		api["ObjectsThatCanBeSaved"]["VapeOptions"..name.."Button"] = {["Type"] = "NewButton", ["Object"] = textbutton, ["Api"] = buttonapi}
+		Api["ObjectsThatCanBeSaved"]["VapeOptions"..name.."Button"] = {["Type"] = "NewButton", ["Object"] = textbutton, ["Api"] = buttonApi}
 
-		return buttonapi
+		return buttonApi
 	end
 	if typeval == "Button" then
-		local buttonapi = {}
+		local buttonApi = {}
 		local amount = #vapeoptionsframe:GetChildren()
 		local frame = Instance.new("Frame")
 		frame.BorderSizePixel = 0
@@ -347,12 +347,12 @@ local function CreateTopBarOption(typeval, name, ...)
 		textbutton.Text = "    "..name
 		textbutton.ZIndex = 13
 		textbutton.Parent = frame
-		buttonapi["Object"] = textbutton
+		buttonApi["Object"] = textbutton
 		
 		textbutton.MouseButton1Click:connect(function() args[1]() end)
-		api["ObjectsThatCanBeSaved"]["VapeOptions"..name.."Button"] = {["Type"] = "NewButton", ["Object"] = textbutton, ["Api"] = buttonapi}
+		Api["ObjectsThatCanBeSaved"]["VapeOptions"..name.."Button"] = {["Type"] = "NewButton", ["Object"] = textbutton, ["Api"] = buttonApi}
 
-		return buttonapi
+		return buttonApi
 	end
 end
 
@@ -360,116 +360,116 @@ vapeoptionsbutton.MouseButton1Click:connect(function()
 	vapeoptionsframe.Visible = not vapeoptionsframe.Visible
 end)
 
-api["SaveFriends"] = function()
-	writefile("vape/Profiles/friends.vapefriends", game:GetService("HttpService"):JSONEncode(api["FriendsObject"]["Friends"]))
+Api["SaveFriends"] = function()
+	writefile("vape/Profiles/friends.vapefriends", game:GetService("HttpService"):JSONEncode(Api["FriendsObject"]["Friends"]))
 end
 
-api["LoadFriends"] = function()
+Api["LoadFriends"] = function()
 	local success, result = pcall(function()
 		return game:GetService("HttpService"):JSONDecode(readfile("vape/Profiles/friends.vapefriends"))
 	end)
 	if success and type(result) == "table" then
-		api["FriendsObject"]["Friends"] = result
+		Api["FriendsObject"]["Friends"] = result
 	end
 end
 
-api["SaveSettings"] = function()
-	for i,v in pairs(api["ObjectsThatCanBeSaved"]) do
+Api["SaveSettings"] = function()
+	for i,v in pairs(Api["ObjectsThatCanBeSaved"]) do
 		if v["Type"] == "Window" then
-			api["Settings"][i] = {["Type"] = "Window", ["Visible"] = v["Object"].Visible, ["Expanded"] = v["ChildrenObject"].Visible, ["Position"] = {v["Object"].Position.X.Scale, v["Object"].Position.X.Offset, v["Object"].Position.Y.Scale, v["Object"].Position.Y.Offset}}
+			Api["Settings"][i] = {["Type"] = "Window", ["Visible"] = v["Object"].Visible, ["Expanded"] = v["ChildrenObject"].Visible, ["Position"] = {v["Object"].Position.X.Scale, v["Object"].Position.X.Offset, v["Object"].Position.Y.Scale, v["Object"].Position.Y.Offset}}
 		end
 		if v["Type"] == "CustomWindow" then
-			api["Settings"][i] = {["Type"] = "CustomWindow", ["Visible"] = v["Object"].Visible, ["Pinned"] = v["Api"]["Pinned"], ["Position"] = {v["Object"].Position.X.Scale, v["Object"].Position.X.Offset, v["Object"].Position.Y.Scale, v["Object"].Position.Y.Offset}}
+			Api["Settings"][i] = {["Type"] = "CustomWindow", ["Visible"] = v["Object"].Visible, ["Pinned"] = v["Api"]["Pinned"], ["Position"] = {v["Object"].Position.X.Scale, v["Object"].Position.X.Offset, v["Object"].Position.Y.Scale, v["Object"].Position.Y.Offset}}
 		end
 		if (v["Type"] == "Button" or v["Type"] == "Toggle") then
-			api["Settings"][i] = {["Type"] = "Button", ["Enabled"] = v["Api"]["Enabled"], ["Keybind"] = v["Api"]["Keybind"]}
+			Api["Settings"][i] = {["Type"] = "Button", ["Enabled"] = v["Api"]["Enabled"], ["Keybind"] = v["Api"]["Keybind"]}
 		end
 		if v["Type"] == "NewToggle" then
-			api["Settings"][i] = {["Type"] = "NewToggle", ["Enabled"] = v["Api"]["Enabled"], ["Keybind"] = v["Api"]["Keybind"]}
+			Api["Settings"][i] = {["Type"] = "NewToggle", ["Enabled"] = v["Api"]["Enabled"], ["Keybind"] = v["Api"]["Keybind"]}
 		end
 		if v["Type"] == "Dropdown" then
-			api["Settings"][i] = {["Type"] = "Dropdown", ["Value"] = v["Api"]["Value"]}
+			Api["Settings"][i] = {["Type"] = "Dropdown", ["Value"] = v["Api"]["Value"]}
 		end
 		if v["Type"] == "OptionsButton" then
-			api["Settings"][i] = {["Type"] = "OptionsButton", ["Enabled"] = v["Api"]["Enabled"], ["Expanded"] = v["Api"]["Expanded"], ["Keybind"] = v["Api"]["Keybind"]}
+			Api["Settings"][i] = {["Type"] = "OptionsButton", ["Enabled"] = v["Api"]["Enabled"], ["Expanded"] = v["Api"]["Expanded"], ["Keybind"] = v["Api"]["Keybind"]}
 		end
 		if v["Type"] == "Slider" then
-			api["Settings"][i] = {["Type"] = "Slider", ["Value"] = v["Api"]["Value"]}
+			Api["Settings"][i] = {["Type"] = "Slider", ["Value"] = v["Api"]["Value"]}
 		end
 		if v["Type"] == "ColorSlider" then
-			api["Settings"][i] = {["Type"] = "ColorSlider", ["Value"] = v["Api"]["Value"], ["RainbowValue"] = v["Api"]["RainbowValue"]}
+			Api["Settings"][i] = {["Type"] = "ColorSlider", ["Value"] = v["Api"]["Value"], ["RainbowValue"] = v["Api"]["RainbowValue"]}
 		end
 	end
-	writefile("vape/Profiles/"..game.PlaceId..".vapeprofile", game:GetService("HttpService"):JSONEncode(api["Settings"]))
+	writefile("vape/Profiles/"..game.PlaceId..".vapeprofile", game:GetService("HttpService"):JSONEncode(Api["Settings"]))
 end
 
-api["LoadSettings"] = function()
+Api["LoadSettings"] = function()
 	local success, result = pcall(function()
 		return game:GetService("HttpService"):JSONDecode(readfile("vape/Profiles/"..game.PlaceId..".vapeprofile"))
 	end)
 	if success and type(result) == "table" then
-		api["Settings"]["GUIObject"]["BlatantMode"] = result["GUIObject"]["BlatantMode"]
+		Api["Settings"]["GUIObject"]["BlatantMode"] = result["GUIObject"]["BlatantMode"]
 		for i,v in pairs(result) do
-			if v["Type"] == "Window" and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
-				api["ObjectsThatCanBeSaved"][i]["Object"].Position = UDim2.new(v["Position"][1], v["Position"][2], v["Position"][3], v["Position"][4])
-				api["ObjectsThatCanBeSaved"][i]["Object"].Visible = v["Visible"]
-				api["ObjectsThatCanBeSaved"][i]["Api"]["RealVis"] = v["Visible"]
+			if v["Type"] == "Window" and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
+				Api["ObjectsThatCanBeSaved"][i]["Object"].Position = UDim2.new(v["Position"][1], v["Position"][2], v["Position"][3], v["Position"][4])
+				Api["ObjectsThatCanBeSaved"][i]["Object"].Visible = v["Visible"]
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["RealVis"] = v["Visible"]
 				if v["Expanded"] then
-					api["ObjectsThatCanBeSaved"][i]["Api"]["ExpandToggle"]()
+					Api["ObjectsThatCanBeSaved"][i]["Api"]["ExpandToggle"]()
 				end
 			end
-			if v["Type"] == "Custom" and api["findObjectInTable"](api["Settings"], i) then
-				api["Settings"][i] = v
+			if v["Type"] == "Custom" and Api["findObjectInTable"](Api["Settings"], i) then
+				Api["Settings"][i] = v
 			end
-			if v["Type"] == "CustomWindow" and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
-				api["ObjectsThatCanBeSaved"][i]["Object"].Position = UDim2.new(v["Position"][1], v["Position"][2], v["Position"][3], v["Position"][4])
-				api["ObjectsThatCanBeSaved"][i]["Object"].Visible = v["Visible"]
+			if v["Type"] == "CustomWindow" and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
+				Api["ObjectsThatCanBeSaved"][i]["Object"].Position = UDim2.new(v["Position"][1], v["Position"][2], v["Position"][3], v["Position"][4])
+				Api["ObjectsThatCanBeSaved"][i]["Object"].Visible = v["Visible"]
 				if v["Pinned"] then
-					api["ObjectsThatCanBeSaved"][i]["Api"]["PinnedToggle"]()
+					Api["ObjectsThatCanBeSaved"][i]["Api"]["PinnedToggle"]()
 				end
-				api["ObjectsThatCanBeSaved"][i]["Api"]["CheckVis"]()
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["CheckVis"]()
 			end
-			if v["Type"] == "Button" and i:match("VapeOptions") and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
+			if v["Type"] == "Button" and i:match("VapeOptions") and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
 				v["Type"] = "NewToggle"
 			end
-			if (v["Type"] == "Button" or v["Type"] == "Toggle") and v["Enabled"] and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
-				api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleButton"](false)
+			if (v["Type"] == "Button" or v["Type"] == "Toggle") and v["Enabled"] and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleButton"](false)
 				if v["Keybind"] ~= "" then
-					api["ObjectsThatCanBeSaved"][i]["Api"]["Keybind"] = v["Keybind"]
+					Api["ObjectsThatCanBeSaved"][i]["Api"]["Keybind"] = v["Keybind"]
 				end
 			end
-			if v["Type"] == "NewToggle" and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
-				api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleButton"](v["Enabled"])
+			if v["Type"] == "NewToggle" and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleButton"](v["Enabled"])
 			end
-			if v["Type"] == "Dropdown" and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
-				api["ObjectsThatCanBeSaved"][i]["Api"]["SetValue"](v["Value"])
+			if v["Type"] == "Dropdown" and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["SetValue"](v["Value"])
 			end
-			if v["Type"] == "OptionsButton" and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
+			if v["Type"] == "OptionsButton" and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
 				if v["Enabled"] then
-					api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleButton"](false)
+					Api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleButton"](false)
 				end
 				if v["Expanded"] then
-					api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleExpanded"]()
+					Api["ObjectsThatCanBeSaved"][i]["Api"]["ToggleExpanded"]()
 				end
 				if v["Keybind"] ~= "" then
-					api["ObjectsThatCanBeSaved"][i]["Api"]["Keybind"] = v["Keybind"]
+					Api["ObjectsThatCanBeSaved"][i]["Api"]["Keybind"] = v["Keybind"]
 				end
 			end
-			if v["Type"] == "Slider" and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
-				api["ObjectsThatCanBeSaved"][i]["Api"]["SetValue"](v["Value"] < api["ObjectsThatCanBeSaved"][i]["Api"]["Max"] and v["Value"] or api["ObjectsThatCanBeSaved"][i]["Api"]["Max"])
-				api["ObjectsThatCanBeSaved"][i]["Object"].Slider.FillSlider.Size = UDim2.new((v["Value"] < api["ObjectsThatCanBeSaved"][i]["Api"]["Max"] and v["Value"] or api["ObjectsThatCanBeSaved"][i]["Api"]["Max"]) / api["ObjectsThatCanBeSaved"][i]["Api"]["Max"], 0, 1, 0)
+			if v["Type"] == "Slider" and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["SetValue"](v["Value"] < Api["ObjectsThatCanBeSaved"][i]["Api"]["Max"] and v["Value"] or Api["ObjectsThatCanBeSaved"][i]["Api"]["Max"])
+				Api["ObjectsThatCanBeSaved"][i]["Object"].Slider.FillSlider.Size = UDim2.new((v["Value"] < Api["ObjectsThatCanBeSaved"][i]["Api"]["Max"] and v["Value"] or Api["ObjectsThatCanBeSaved"][i]["Api"]["Max"]) / Api["ObjectsThatCanBeSaved"][i]["Api"]["Max"], 0, 1, 0)
 			end
-			if v["Type"] == "ColorSlider" and api["findObjectInTable"](api["ObjectsThatCanBeSaved"], i) then
-				api["ObjectsThatCanBeSaved"][i]["Api"]["SetValue"](v["Value"])
-				api["ObjectsThatCanBeSaved"][i]["Api"]["SetRainbow"](v["RainbowValue"])
-				api["ObjectsThatCanBeSaved"][i]["Object"].Slider.ButtonSlider.Position = UDim2.new(v["Value"], -1, 0, 0)
+			if v["Type"] == "ColorSlider" and Api["findObjectInTable"](Api["ObjectsThatCanBeSaved"], i) then
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["SetValue"](v["Value"])
+				Api["ObjectsThatCanBeSaved"][i]["Api"]["SetRainbow"](v["RainbowValue"])
+				Api["ObjectsThatCanBeSaved"][i]["Object"].Slider.ButtonSlider.Position = UDim2.new(v["Value"], -1, 0, 0)
 			end
 		end
 	end
 end
 
-api["CreateCustomWindow"] = function(name, icon, position, visible)
-	local windowapi = {}
+Api["CreateCustomWindow"] = function(name, icon, position, visible)
+	local windowApi = {}
 	local windowtitle = Instance.new("TextButton")
 	windowtitle.AutoButtonColor = false
 	windowtitle.BackgroundColor3 = Color3.fromRGB(34, 35, 38)
@@ -519,11 +519,11 @@ api["CreateCustomWindow"] = function(name, icon, position, visible)
 	children.BorderSizePixel = 0
 	children.ClipsDescendants = false
 	children.Parent = windowtitle
-	windowapi["Pinned"] = false
-	windowapi["RealVis"] = false
+	windowApi["Pinned"] = false
+	windowApi["RealVis"] = false
 	
-	windowapi["CheckVis"] = function()
-		if windowapi["RealVis"] then
+	windowApi["CheckVis"] = function()
+		if windowApi["RealVis"] then
 			if clickgui.Visible then
 				windowtitle.Visible = true
 				windowtitle.Text = name
@@ -531,7 +531,7 @@ api["CreateCustomWindow"] = function(name, icon, position, visible)
 				iconlabel.Visible = true
 				expandbutton.Visible = true
 			else
-				if windowapi["Pinned"] then
+				if windowApi["Pinned"] then
 					windowtitle.Visible = true
 					windowtitle.Text = ""
 					windowtitle.Size = UDim2.new(0, 165, 0, 0)
@@ -546,35 +546,35 @@ api["CreateCustomWindow"] = function(name, icon, position, visible)
 		end
 	end
 	
-	windowapi["SetVisible"] = function(value)
-		windowapi["RealVis"] = value
-		windowapi["CheckVis"]()
+	windowApi["SetVisible"] = function(value)
+		windowApi["RealVis"] = value
+		windowApi["CheckVis"]()
 	end
 	
-	windowapi["PinnedToggle"] = function()
-		windowapi["Pinned"] = not windowapi["Pinned"]
-		if windowapi["Pinned"] then
+	windowApi["PinnedToggle"] = function()
+		windowApi["Pinned"] = not windowApi["Pinned"]
+		if windowApi["Pinned"] then
 			expandbutton.TextTransparency = 0
 		else
 			expandbutton.TextTransparency = 0.3
 		end
 	end
 	
-	clickgui:GetPropertyChangedSignal("Visible"):connect(windowapi["CheckVis"])
-	windowapi["CheckVis"]()
+	clickgui:GetPropertyChangedSignal("Visible"):connect(windowApi["CheckVis"])
+	windowApi["CheckVis"]()
 	
-	windowapi["GetCustomChildren"] = function()
+	windowApi["GetCustomChildren"] = function()
 		return children
 	end
 	
-	expandbutton.MouseButton1Click:connect(windowapi["PinnedToggle"])
-	api["ObjectsThatCanBeSaved"][name.."CustomWindow"] = {["Object"] = windowtitle, ["ChildrenObject"] = children, ["Type"] = "CustomWindow", ["Api"] = windowapi}
+	expandbutton.MouseButton1Click:connect(windowApi["PinnedToggle"])
+	Api["ObjectsThatCanBeSaved"][name.."CustomWindow"] = {["Object"] = windowtitle, ["ChildrenObject"] = children, ["Type"] = "CustomWindow", ["Api"] = windowApi}
 	
-	return windowapi
+	return windowApi
 end
 
-api["CreateWindow"] = function(name, icon, position, visible)
-	local windowapi = {}
+Api["CreateWindow"] = function(name, icon, position, visible)
+	local windowApi = {}
 	local windowtitle = Instance.new("TextButton")
 	windowtitle.AutoButtonColor = false
 	windowtitle.BackgroundColor3 = Color3.fromRGB(34, 35, 38)
@@ -636,7 +636,7 @@ api["CreateWindow"] = function(name, icon, position, visible)
 	childrenscrollbarbkg.ZIndex = 1
 	childrenscrollbarbkg.Visible = false
 	childrenscrollbarbkg.Parent = windowtitle
-	api["ObjectsThatCanBeSaved"][name.."Window"] = {["Object"] = windowtitle, ["ChildrenObject"] = children, ["Type"] = "Window", ["Api"] = windowapi}
+	Api["ObjectsThatCanBeSaved"][name.."Window"] = {["Object"] = windowtitle, ["ChildrenObject"] = children, ["Type"] = "Window", ["Api"] = windowApi}
 
 	local uilistlayout = Instance.new("UIListLayout")
 	uilistlayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -654,11 +654,11 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		end
 	end)
 
-	windowapi["SetVisible"] = function(value)
+	windowApi["SetVisible"] = function(value)
 		windowtitle.Visible = value
 	end
 
-	windowapi["ExpandToggle"] = function()
+	windowApi["ExpandToggle"] = function()
 		children.Visible = not children.Visible
 		if children.Visible then
 			expandbutton.Text = "-"
@@ -673,12 +673,12 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		end
 	end
 
-	windowtitle.MouseButton2Click:connect(windowapi["ExpandToggle"])
-	expandbutton.MouseButton1Click:connect(windowapi["ExpandToggle"])
-	expandbutton.MouseButton2Click:connect(windowapi["ExpandToggle"])
+	windowtitle.MouseButton2Click:connect(windowApi["ExpandToggle"])
+	expandbutton.MouseButton1Click:connect(windowApi["ExpandToggle"])
+	expandbutton.MouseButton2Click:connect(windowApi["ExpandToggle"])
 
-	windowapi["CreateButton"] = function(name, temporaryfunction, temporaryfunction2)
-		local buttonapi = {}
+	windowApi["CreateButton"] = function(name, temporaryfunction, temporaryfunction2)
+		local buttonApi = {}
 		local amount = #children:GetChildren()
 		local button = Instance.new("TextButton")
 		button.AutoButtonColor = false
@@ -694,25 +694,25 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		button.Name = name
 		button.Visible = true
 		button.Parent = children
-		buttonapi["Enabled"] = false
-		buttonapi["Keybind"] = ""
-		buttonapi["ToggleButton"] = function(clicked)
+		buttonApi["Enabled"] = false
+		buttonApi["Keybind"] = ""
+		buttonApi["ToggleButton"] = function(clicked)
 			if clicked and holdingshift then
 				if captured == false then
 					captured = true
 					spawn(function()
-						if buttonapi["Keybind"] ~= "" then
+						if buttonApi["Keybind"] ~= "" then
 							button.Text = "Unbound"
-							buttonapi["Keybind"] = ""
+							buttonApi["Keybind"] = ""
 							captured = false
 							wait(1)
 							button.Text = name
 						else
 							button.Text = "Press a key"
 							repeat wait() until pressedkey ~= ""
-							buttonapi["Keybind"] = pressedkey
+							buttonApi["Keybind"] = pressedkey
 							pressedkey = ""
-							button.Text = "Bound to "..buttonapi["Keybind"]
+							button.Text = "Bound to "..buttonApi["Keybind"]
 							captured = false
 							wait(1)
 							button.Text = name
@@ -720,9 +720,9 @@ api["CreateWindow"] = function(name, icon, position, visible)
 					end)
 				end
 			else
-				buttonapi["Enabled"] = not buttonapi["Enabled"]
-				if buttonapi["Enabled"] then
-					button.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+				buttonApi["Enabled"] = not buttonApi["Enabled"]
+				if buttonApi["Enabled"] then
+					button.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 					button.BackgroundTransparency = 0
 					button.TextColor3 = Color3.new(0, 0, 0)
 					temporaryfunction()
@@ -732,17 +732,17 @@ api["CreateWindow"] = function(name, icon, position, visible)
 					button.TextColor3 = Color3.new(1, 1, 1)
 					temporaryfunction2()
 				end
-				api["UpdateHudEvent"]:Fire()
+				Api["UpdateHudEvent"]:Fire()
 			end
 		end
-		button.MouseButton1Click:connect(function() buttonapi["ToggleButton"](true) end)
-		api["ObjectsThatCanBeSaved"][name.."Button"] = {["Type"] = "Button", ["Object"] = button, ["Api"] = buttonapi}
+		button.MouseButton1Click:connect(function() buttonApi["ToggleButton"](true) end)
+		Api["ObjectsThatCanBeSaved"][name.."Button"] = {["Type"] = "Button", ["Object"] = button, ["Api"] = buttonApi}
 
-		return buttonapi
+		return buttonApi
 	end
 
-	windowapi["CreateOptionsButton"] = function(naame, temporaryfunction, temporaryfunction2, expandedmenu, temporaryfunction3, blatantmode)
-		local buttonapi = {}
+	windowApi["CreateOptionsButton"] = function(naame, temporaryfunction, temporaryfunction2, expandedmenu, temporaryfunction3, blatantmode)
+		local buttonApi = {}
 		local amount = #children:GetChildren()
 		local button = Instance.new("TextButton")
 		button.AutoButtonColor = false
@@ -803,32 +803,32 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		uilistlayout2:GetPropertyChangedSignal("AbsoluteContentSize"):connect(function()
 			visual1.Size = UDim2.new(0, 4, 0, uilistlayout2.AbsoluteContentSize.Y)
 		end)
-		buttonapi["Enabled"] = false
-		buttonapi["Keybind"] = ""
-		buttonapi["Bindable"] = true
-		buttonapi["Name"] = naame
-		buttonapi["Expanded"] = false
-		buttonapi["Blatant"] = blatantmode
-		buttonapi["HasExtraText"] = type(temporaryfunction3) == "function"
-		buttonapi["GetExtraText"] = (buttonapi["HasExtraText"] and temporaryfunction3 or function() return "" end)
-		buttonapi["ToggleButton"] = function(clicked, force)
-			if ((blatantmode and api["Settings"]["GUIObject"]["BlatantMode"] or force) or (not blatantmode)) then
-				if clicked and holdingshift and buttonapi["Bindable"] then
+		buttonApi["Enabled"] = false
+		buttonApi["Keybind"] = ""
+		buttonApi["Bindable"] = true
+		buttonApi["Name"] = naame
+		buttonApi["Expanded"] = false
+		buttonApi["Blatant"] = blatantmode
+		buttonApi["HasExtraText"] = type(temporaryfunction3) == "function"
+		buttonApi["GetExtraText"] = (buttonApi["HasExtraText"] and temporaryfunction3 or function() return "" end)
+		buttonApi["ToggleButton"] = function(clicked, force)
+			if ((blatantmode and Api["Settings"]["GUIObject"]["BlatantMode"] or force) or (not blatantmode)) then
+				if clicked and holdingshift and buttonApi["Bindable"] then
 					if captured == false then
 						captured = true
 						spawn(function()
-							if buttonapi["Keybind"] ~= "" then
+							if buttonApi["Keybind"] ~= "" then
 								button.Text = "Unbound"
-								buttonapi["Keybind"] = ""
+								buttonApi["Keybind"] = ""
 								captured = false
 								wait(1)
 								button.Text = naame
 							else
 								button.Text = "Press a key"
 								repeat wait() until pressedkey ~= ""
-								buttonapi["Keybind"] = pressedkey
+								buttonApi["Keybind"] = pressedkey
 								pressedkey = ""
-								button.Text = "Bound to "..buttonapi["Keybind"]
+								button.Text = "Bound to "..buttonApi["Keybind"]
 								captured = false
 								wait(1)
 								button.Text = naame
@@ -836,10 +836,10 @@ api["CreateWindow"] = function(name, icon, position, visible)
 						end)
 					end
 				else
-					buttonapi["Enabled"] = not buttonapi["Enabled"]
-					api["UpdateHudEvent"]:Fire()
-					if buttonapi["Enabled"] then
-						button.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+					buttonApi["Enabled"] = not buttonApi["Enabled"]
+					Api["UpdateHudEvent"]:Fire()
+					if buttonApi["Enabled"] then
+						button.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 						button.BackgroundTransparency = 0
 						button.TextColor3 = Color3.new(0, 0, 0)
 						temporaryfunction()
@@ -852,10 +852,10 @@ api["CreateWindow"] = function(name, icon, position, visible)
 				end
 			end
 		end
-		buttonapi["ToggleExpanded"] = function()
-			buttonapi["Expanded"] = not buttonapi["Expanded"]
-			visual1.Visible = buttonapi["Expanded"]
-			if buttonapi["Expanded"] then
+		buttonApi["ToggleExpanded"] = function()
+			buttonApi["Expanded"] = not buttonApi["Expanded"]
+			visual1.Visible = buttonApi["Expanded"]
+			if buttonApi["Expanded"] then
 				button2.BackgroundColor3 = Color3.new(0, 0, 0)
 			else
 				button2.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
@@ -865,17 +865,17 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			button2.Text = "·\n·\n·"
 		else
 			button2.Text = ""
-			buttonapi["ToggleExpanded"] = function() end
+			buttonApi["ToggleExpanded"] = function() end
 		end
-		button.MouseButton1Click:connect(function() buttonapi["ToggleButton"](true) end)
-		button.MouseButton2Click:connect(buttonapi["ToggleExpanded"])
-		button2.MouseButton1Click:connect(buttonapi["ToggleExpanded"])
-		buttonapi["CreateColorSlider"] = function(name, temporaryfunction)
+		button.MouseButton1Click:connect(function() buttonApi["ToggleButton"](true) end)
+		button.MouseButton2Click:connect(buttonApi["ToggleExpanded"])
+		button2.MouseButton1Click:connect(buttonApi["ToggleExpanded"])
+		buttonApi["CreateColorSlider"] = function(name, temporaryfunction)
 			local min, max = 0, 1
 			local def = math.floor((min + max) / 2)
 			local defsca = (def - min)/(max - min)
 			local click = false
-			local sliderapi = {}
+			local sliderApi = {}
 			local amount = #children:GetChildren()
 			local frame = Instance.new("Frame")
 			frame.Size = UDim2.new(0, 161, 0, 30)
@@ -911,27 +911,27 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			slider3.Parent = slider1
 			slider3.BorderSizePixel = 0
 			slider3.Name = "ButtonSlider"
-			sliderapi["Value"] = 0.44
-			sliderapi["RainbowValue"] = false
-			sliderapi["SetValue"] = function(val)
+			sliderApi["Value"] = 0.44
+			sliderApi["RainbowValue"] = false
+			sliderApi["SetValue"] = function(val)
 				val = math.clamp(val, min, max)
-				sliderapi["Value"] = val
+				sliderApi["Value"] = val
 				slider3.Position = UDim2.new(val, -1, 0, 0)
 				temporaryfunction(val)
 			end
-			sliderapi["SetRainbow"] = function(val)
-				sliderapi["RainbowValue"] = val
-				if sliderapi["RainbowValue"] then
+			sliderApi["SetRainbow"] = function(val)
+				sliderApi["RainbowValue"] = val
+				if sliderApi["RainbowValue"] then
 					local heh
 					heh = coroutine.resume(coroutine.create(function()
 						repeat
 							wait()
-							if sliderapi["RainbowValue"] then
-								sliderapi["SetValue"](rainbowvalue)
+							if sliderApi["RainbowValue"] then
+								sliderApi["SetValue"](rainbowvalue)
 							else
 								coroutine.yield(heh)
 							end
-						until sliderapi["RainbowValue"] == false
+						until sliderApi["RainbowValue"] == false
 					end))
 				end
 			end
@@ -942,35 +942,35 @@ api["CreateWindow"] = function(name, icon, position, visible)
 					click = false
 				end)
 				if click then
-					sliderapi["SetRainbow"](not sliderapi["RainbowValue"])
+					sliderApi["SetRainbow"](not sliderApi["RainbowValue"])
 				end
 				local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-				sliderapi["SetValue"](min + ((max - min) * xscale))
+				sliderApi["SetValue"](min + ((max - min) * xscale))
 				slider3.Position = UDim2.new(xscale, -1, 0, 0)
 				local move
 				local kill
 				move = game:GetService("UserInputService").InputChanged:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseMovement then
 						local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-						sliderapi["SetValue"](min + ((max - min) * xscale))
+						sliderApi["SetValue"](min + ((max - min) * xscale))
 					end
 				end)
 				kill = game:GetService("UserInputService").InputEnded:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 then
-						capturedslider = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderapi}
+						capturedslider = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderApi}
 						move:Disconnect()
 						kill:Disconnect()
 					end
 				end)
 			end)
-			api["ObjectsThatCanBeSaved"][naame..name.."SliderColor"] = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderapi}
+			Api["ObjectsThatCanBeSaved"][naame..name.."SliderColor"] = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderApi}
 
-			return sliderapi
+			return sliderApi
 		end
-		buttonapi["CreateSlider"] = function(name, min, max, temporaryfunction, defaultvalue)
+		buttonApi["CreateSlider"] = function(name, min, max, temporaryfunction, defaultvalue)
 			local def = math.floor((min + max) / 2)
 			local defsca = (def - min)/(max - min)
-			local sliderapi = {}
+			local sliderApi = {}
 			local amount2 = #children2:GetChildren()
 			local frame = Instance.new("Frame")
 			frame.Size = UDim2.new(0, 161, 0, 30)
@@ -1008,7 +1008,7 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			uicorner.Parent = slider1
 			local slider2 = Instance.new("Frame")
 			slider2.Size = UDim2.new(((defaultvalue or min) / max), 0, 1, 0)
-			slider2.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+			slider2.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 			slider2.Name = "FillSlider"
 			slider2.Parent = slider1
 			local uicorner2 = Instance.new("UICorner")
@@ -1025,43 +1025,43 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			local uicorner3 = Instance.new("UICorner")
 			uicorner3.CornerRadius = UDim.new(0, 32)
 			uicorner3.Parent = slider3
-			sliderapi["Value"] = (defaultvalue or min)
-			sliderapi["Max"] = max
-			sliderapi["SetValue"] = function(val)
+			sliderApi["Value"] = (defaultvalue or min)
+			sliderApi["Max"] = max
+			sliderApi["SetValue"] = function(val)
 				val = math.clamp(val, min, max)
-				sliderapi["Value"] = val
-				textlabel2.Text = sliderapi["Value"].." "
+				sliderApi["Value"] = val
+				textlabel2.Text = sliderApi["Value"].." "
 				temporaryfunction(val)
 			end
 			slider3.MouseButton1Down:Connect(function()
 				local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-				sliderapi["SetValue"](math.floor(min + ((max - min) * xscale)))
-				textlabel2.Text = sliderapi["Value"].." "
+				sliderApi["SetValue"](math.floor(min + ((max - min) * xscale)))
+				textlabel2.Text = sliderApi["Value"].." "
 				slider2.Size = UDim2.new(xscale,0,1,0)
 				local move
 				local kill
 				move = game:GetService("UserInputService").InputChanged:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseMovement then
 						local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-						sliderapi["SetValue"](math.floor(min + ((max - min) * xscale)))
-						textlabel2.Text = sliderapi["Value"].." "
+						sliderApi["SetValue"](math.floor(min + ((max - min) * xscale)))
+						textlabel2.Text = sliderApi["Value"].." "
 						slider2.Size = UDim2.new(xscale,0,1,0)
 					end
 				end)
 				kill = game:GetService("UserInputService").InputEnded:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 then
-						capturedslider = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderapi}
+						capturedslider = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderApi}
 						move:Disconnect()
 						kill:Disconnect()
 					end
 				end)
 			end)
-			api["ObjectsThatCanBeSaved"][naame..name.."Slider"] = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderapi}
+			Api["ObjectsThatCanBeSaved"][naame..name.."Slider"] = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderApi}
 
-			return sliderapi
+			return sliderApi
 		end
-		buttonapi["CreateDropdown"] = function(name, tab, temporaryfunction)
-			local dropapi = {}
+		buttonApi["CreateDropdown"] = function(name, tab, temporaryfunction)
+			local dropApi = {}
 			local list = tab
 			local amount2 = #children2:GetChildren()
 			local frame = Instance.new("Frame")
@@ -1101,14 +1101,14 @@ api["CreateWindow"] = function(name, icon, position, visible)
 				dropframe.Visible = not dropframe.Visible
 			end)
 			local placeholder = 0
-			dropapi["Value"] = (list ~= {} and list[1] or "")
-			dropapi["Default"] = dropapi["Value"]
-			dropapi["UpdateList"] = function(val)
+			dropApi["Value"] = (list ~= {} and list[1] or "")
+			dropApi["Default"] = dropApi["Value"]
+			dropApi["UpdateList"] = function(val)
 				placeholder = 0
 				list = val
 				for del1, del2 in pairs(dropframe:GetChildren()) do if del2:IsA("TextButton") then del2:Remove() end end
 				for numbe, listobj in pairs(val) do
-					if listobj ~= dropapi["Value"] then
+					if listobj ~= dropApi["Value"] then
 						local drop2 = Instance.new("TextButton")
 						dropframe.Size = UDim2.new(0, 157, 0, placeholder + 13)
 						drop2.Text = listobj
@@ -1124,39 +1124,39 @@ api["CreateWindow"] = function(name, icon, position, visible)
 						drop2.Name = listobj
 						drop2.Parent = dropframe
 						drop2.MouseButton1Click:connect(function()
-							dropapi["Value"] = listobj
+							dropApi["Value"] = listobj
 							drop1.Text = listobj
 							dropframe.Visible = false
 							temporaryfunction(listobj)
-							dropapi["UpdateList"](list)
-							if buttonapi["HasExtraText"] then
-								api["UpdateHudEvent"]:Fire()
+							dropApi["UpdateList"](list)
+							if buttonApi["HasExtraText"] then
+								Api["UpdateHudEvent"]:Fire()
 							end
 						end)
 						placeholder = placeholder + 13
 					end
 				end
 			end
-			dropapi["SetValue"] = function(listobj)
-				dropapi["Value"] = listobj
+			dropApi["SetValue"] = function(listobj)
+				dropApi["Value"] = listobj
 				drop1.Text = listobj
 				dropframe.Visible = false
 				temporaryfunction(listobj)
-				dropapi["UpdateList"](list)
-				if buttonapi["HasExtraText"] then
-					api["UpdateHudEvent"]:Fire()
+				dropApi["UpdateList"](list)
+				if buttonApi["HasExtraText"] then
+					Api["UpdateHudEvent"]:Fire()
 				end
 			end
-			dropapi["UpdateList"](list)
-			if buttonapi["HasExtraText"] then
-				api["UpdateHudEvent"]:Fire()
+			dropApi["UpdateList"](list)
+			if buttonApi["HasExtraText"] then
+				Api["UpdateHudEvent"]:Fire()
 			end
-			api["ObjectsThatCanBeSaved"][naame..name.."Dropdown"] = {["Type"] = "Dropdown", ["Object"] = frame, ["Api"] = dropapi}
+			Api["ObjectsThatCanBeSaved"][naame..name.."Dropdown"] = {["Type"] = "Dropdown", ["Object"] = frame, ["Api"] = dropApi}
 
-			return dropapi
+			return dropApi
 		end
-		buttonapi["CreateToggle"] = function(name, temporaryfunction, temporaryfunction2)
-			local buttonapi = {}
+		buttonApi["CreateToggle"] = function(name, temporaryfunction, temporaryfunction2)
+			local buttonApi = {}
 			local amount = #children2:GetChildren()
 			local frame = Instance.new("Frame")
 			frame.BorderSizePixel = 0
@@ -1199,12 +1199,12 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			textlabel.Name = name
 			textlabel.Text = "          "..name
 			textlabel.Parent = frame
-			buttonapi["Enabled"] = false
-			buttonapi["Keybind"] = ""
-			buttonapi["ToggleButton"] = function()
-				buttonapi["Enabled"] = not buttonapi["Enabled"]
-				if buttonapi["Enabled"] then
-					button.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+			buttonApi["Enabled"] = false
+			buttonApi["Keybind"] = ""
+			buttonApi["ToggleButton"] = function()
+				buttonApi["Enabled"] = not buttonApi["Enabled"]
+				if buttonApi["Enabled"] then
+					button.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 					frame2.Position = UDim2.new(0, 9, 0, 1)
 					temporaryfunction()
 				else
@@ -1213,20 +1213,20 @@ api["CreateWindow"] = function(name, icon, position, visible)
 					temporaryfunction2()
 				end
 			end
-			button.MouseButton1Click:connect(buttonapi["ToggleButton"])
-			api["ObjectsThatCanBeSaved"][naame..name.."Toggle"] = {["Type"] = "Toggle", ["Object"] = button, ["Api"] = buttonapi}
+			button.MouseButton1Click:connect(buttonApi["ToggleButton"])
+			Api["ObjectsThatCanBeSaved"][naame..name.."Toggle"] = {["Type"] = "Toggle", ["Object"] = button, ["Api"] = buttonApi}
 
-			return buttonapi
+			return buttonApi
 		end
-		api["ObjectsThatCanBeSaved"][naame.."OptionsButton"] = {["Type"] = "OptionsButton", ["Object"] = button, ["Api"] = buttonapi}
+		Api["ObjectsThatCanBeSaved"][naame.."OptionsButton"] = {["Type"] = "OptionsButton", ["Object"] = button, ["Api"] = buttonApi}
 
-		return buttonapi
+		return buttonApi
 	end
 
-	windowapi["CreateSlider"] = function(name, min, max, temporaryfunction)
+	windowApi["CreateSlider"] = function(name, min, max, temporaryfunction)
 		local def = math.floor((min + max) / 2)
 		local defsca = (def - min)/(max - min)
-		local sliderapi = {}
+		local sliderApi = {}
 		local amount = #children:GetChildren()
 		local frame = Instance.new("Frame")
 		frame.Size = UDim2.new(0, 165, 0, 30)
@@ -1265,7 +1265,7 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		uicorner.Parent = slider1
 		local slider2 = Instance.new("Frame")
 		slider2.Size = UDim2.new(0, 0, 1, 0)
-		slider2.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+		slider2.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 		slider2.Name = "FillSlider"
 		slider2.Parent = slider1
 		local uicorner2 = Instance.new("UICorner")
@@ -1282,17 +1282,17 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		local uicorner3 = Instance.new("UICorner")
 		uicorner3.CornerRadius = UDim.new(0, 32)
 		uicorner3.Parent = slider3
-		sliderapi["Value"] = 0
-		sliderapi["SetValue"] = function(val)
+		sliderApi["Value"] = 0
+		sliderApi["SetValue"] = function(val)
 			val = math.clamp(val, min, max)
-			sliderapi["Value"] = val
-			textlabel2.Text = sliderapi["Value"].." "
+			sliderApi["Value"] = val
+			textlabel2.Text = sliderApi["Value"].." "
 			temporaryfunction(val)
 		end
 		slider3.MouseButton1Down:Connect(function()
 			local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-			sliderapi["SetValue"](math.floor(min + ((max - min) * xscale)))
-			textlabel2.Text = sliderapi["Value"].." "
+			sliderApi["SetValue"](math.floor(min + ((max - min) * xscale)))
+			textlabel2.Text = sliderApi["Value"].." "
 			slider2.Size = UDim2.new(xscale,0,1,0)
 			
 			local move
@@ -1300,31 +1300,31 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			move = game:GetService("UserInputService").InputChanged:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement then
 					local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-					sliderapi["SetValue"](math.floor(min + ((max - min) * xscale)))
-					textlabel2.Text = sliderapi["Value"].." "
+					sliderApi["SetValue"](math.floor(min + ((max - min) * xscale)))
+					textlabel2.Text = sliderApi["Value"].." "
 					
 					slider2.Size = UDim2.new(xscale,0,1,0)
 				end
 			end)
 			kill = game:GetService("UserInputService").InputEnded:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
-					capturedslider = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderapi}
+					capturedslider = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderApi}
 					move:Disconnect()
 					kill:Disconnect()
 				end
 			end)
 		end)
-		api["ObjectsThatCanBeSaved"][name.."Slider"] = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderapi}
+		Api["ObjectsThatCanBeSaved"][name.."Slider"] = {["Type"] = "Slider", ["Object"] = frame, ["Api"] = sliderApi}
 
-		return sliderapi
+		return sliderApi
 	end
 
-	windowapi["CreateColorSlider"] = function(name, temporaryfunction)
+	windowApi["CreateColorSlider"] = function(name, temporaryfunction)
 		local min, max = 0, 1
 		local def = math.floor((min + max) / 2)
 		local defsca = (def - min)/(max - min)
 		local click = false
-		local sliderapi = {}
+		local sliderApi = {}
 		local amount = #children:GetChildren()
 		local frame = Instance.new("Frame")
 		frame.Size = UDim2.new(0, 165, 0, 30)
@@ -1361,27 +1361,27 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		slider3.Parent = slider1
 		slider3.BorderSizePixel = 0
 		slider3.Name = "ButtonSlider"
-		sliderapi["Value"] = 0.44
-		sliderapi["RainbowValue"] = false
-		sliderapi["SetValue"] = function(val)
+		sliderApi["Value"] = 0.44
+		sliderApi["RainbowValue"] = false
+		sliderApi["SetValue"] = function(val)
 			val = math.clamp(val, min, max)
-			sliderapi["Value"] = val
+			sliderApi["Value"] = val
 			slider3.Position = UDim2.new(val, -1, 0, 0)
 			temporaryfunction(val)
 		end
-		sliderapi["SetRainbow"] = function(val)
-			sliderapi["RainbowValue"] = val
-			if sliderapi["RainbowValue"] then
+		sliderApi["SetRainbow"] = function(val)
+			sliderApi["RainbowValue"] = val
+			if sliderApi["RainbowValue"] then
 				local heh
 				heh = coroutine.resume(coroutine.create(function()
 					repeat
 						wait()
-						if sliderapi["RainbowValue"] then
-							sliderapi["SetValue"](rainbowvalue)
+						if sliderApi["RainbowValue"] then
+							sliderApi["SetValue"](rainbowvalue)
 						else
 							coroutine.yield(heh)
 						end
-					until sliderapi["RainbowValue"] == false
+					until sliderApi["RainbowValue"] == false
 				end))
 			end
 		end
@@ -1392,34 +1392,34 @@ api["CreateWindow"] = function(name, icon, position, visible)
 				click = false
 			end)
 			if click then
-				sliderapi["SetRainbow"](not sliderapi["RainbowValue"])
+				sliderApi["SetRainbow"](not sliderApi["RainbowValue"])
 			end
 			local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-			sliderapi["SetValue"](min + ((max - min) * xscale))
+			sliderApi["SetValue"](min + ((max - min) * xscale))
 			slider3.Position = UDim2.new(xscale, -1, 0, 0)
 			local move
 			local kill
 			move = game:GetService("UserInputService").InputChanged:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseMovement then
 					local x,y,xscale,yscale = RelativeXY(slider1, game:GetService("UserInputService"):GetMouseLocation())
-					sliderapi["SetValue"](min + ((max - min) * xscale))
+					sliderApi["SetValue"](min + ((max - min) * xscale))
 				end
 			end)
 			kill = game:GetService("UserInputService").InputEnded:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
-					capturedslider = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderapi}
+					capturedslider = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderApi}
 					move:Disconnect()
 					kill:Disconnect()
 				end
 			end)
 		end)
-		api["ObjectsThatCanBeSaved"][name.."SliderColor"] = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderapi}
+		Api["ObjectsThatCanBeSaved"][name.."SliderColor"] = {["Type"] = "ColorSlider", ["Object"] = frame, ["Api"] = sliderApi}
 
-		return sliderapi
+		return sliderApi
 	end
 
-	windowapi["CreateTextList"] = function(name, temptext, temporaryfunction, temporaryfunction2)
-		local textapi = {}
+	windowApi["CreateTextList"] = function(name, temptext, temporaryfunction, temporaryfunction2)
+		local textApi = {}
 		local amount = #children:GetChildren()
 		local frame = Instance.new("Frame")
 		frame.BackgroundColor3 = Color3.fromRGB(29, 31, 32)
@@ -1475,7 +1475,7 @@ api["CreateWindow"] = function(name, icon, position, visible)
 			scrollframe.Size = UDim2.new(1, 0, 0, math.clamp(uilistlayout3.AbsoluteContentSize.Y, 1, 120))
 		end)
 
-		textapi["RefreshValues"] = function(tab)
+		textApi["RefreshValues"] = function(tab)
 			for i2,v2 in pairs(scrollframe:GetChildren()) do
 				if v2:IsA("TextLabel") then v2:Remove() end
 			end
@@ -1508,11 +1508,11 @@ api["CreateWindow"] = function(name, icon, position, visible)
 
 		addbutton.MouseButton1Click:connect(function() temporaryfunction(textbox.Text) end)
 
-		return textapi
+		return textApi
 	end
 
-	windowapi["CreateToggle"] = function(name, temporaryfunction, temporaryfunction2, goback)
-		local buttonapi = {}
+	windowApi["CreateToggle"] = function(name, temporaryfunction, temporaryfunction2, goback)
+		local buttonApi = {}
 		local amount = #children:GetChildren()
 		local frame = Instance.new("Frame")
 		frame.BackgroundColor3 = Color3.fromRGB(29, 31, 32)
@@ -1556,13 +1556,13 @@ api["CreateWindow"] = function(name, icon, position, visible)
 		textlabel.Name = name
 		textlabel.Text = "          "..name
 		textlabel.Parent = frame
-		buttonapi["Enabled"] = false
-		buttonapi["Keybind"] = ""
-		buttonapi["ToggleButton"] = function()
-			if goback and buttonapi["Enabled"] == false or (not goback) then
-				buttonapi["Enabled"] = not buttonapi["Enabled"]
-				if buttonapi["Enabled"] then
-					button.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+		buttonApi["Enabled"] = false
+		buttonApi["Keybind"] = ""
+		buttonApi["ToggleButton"] = function()
+			if goback and buttonApi["Enabled"] == false or (not goback) then
+				buttonApi["Enabled"] = not buttonApi["Enabled"]
+				if buttonApi["Enabled"] then
+					button.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 					frame2.Position = UDim2.new(0, 9, 0, 1)
 					temporaryfunction()
 				else
@@ -1572,65 +1572,65 @@ api["CreateWindow"] = function(name, icon, position, visible)
 				end
 			end
 		end
-		button.MouseButton1Click:connect(buttonapi["ToggleButton"])
-		api["ObjectsThatCanBeSaved"][name.."Toggle"] = {["Type"] = "Toggle", ["Object"] = button, ["Api"] = buttonapi}
+		button.MouseButton1Click:connect(buttonApi["ToggleButton"])
+		Api["ObjectsThatCanBeSaved"][name.."Toggle"] = {["Type"] = "Toggle", ["Object"] = button, ["Api"] = buttonApi}
 
-		return buttonapi
+		return buttonApi
 	end
 
-	return windowapi
+	return windowApi
 end
 
-api["UpdateUI"] = function()
-	for i,v in pairs(api["ObjectsThatCanBeSaved"]) do
+Api["UpdateUI"] = function()
+	for i,v in pairs(Api["ObjectsThatCanBeSaved"]) do
 		if v["Type"] == "Button" and v["Api"]["Enabled"] then
-			v["Object"].BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+			v["Object"].BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 			v["Object"].TextColor3 = Color3.new(0, 0, 0)
 		end
 		if v["Type"] == "OptionsButton" then
 			if v["Api"]["Enabled"] then
-				v["Object"].BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+				v["Object"].BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 				v["Object"].TextColor3 = Color3.new(0, 0, 0)
 			end
 		end
 		if v["Type"] == "Toggle" and v["Api"]["Enabled"] then
-			v["Object"].BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+			v["Object"].BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 			v["Object"].Frame.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
 		end
 		if v["Type"] == "Slider" then
-			v["Object"].Slider.FillSlider.BackgroundColor3 = Color3.fromHSV(api["Settings"]["GUIObject"]["Color"], 1, 1)
+			v["Object"].Slider.FillSlider.BackgroundColor3 = Color3.fromHSV(Api["Settings"]["GUIObject"]["Color"], 1, 1)
 		end
 	end
 end
 
-api["MainBlur"] = Instance.new("BlurEffect")
-api["MainBlur"].Size = 0
-api["MainBlur"].Parent = game:GetService("Lighting")
-api["MainBlur"].Enabled = false
-api["MainRescale"] = Instance.new("UIScale")
-api["MainRescale"].Parent = clickgui
+Api["MainBlur"] = Instance.new("BlurEffect")
+Api["MainBlur"].Size = 0
+Api["MainBlur"].Parent = game:GetService("Lighting")
+Api["MainBlur"].Enabled = false
+Api["MainRescale"] = Instance.new("UIScale")
+Api["MainRescale"].Parent = clickgui
 
 CreateTopBarOption("Toggle", "Auto-load module states", function() end, function() end, false)
-CreateTopBarOption("Toggle", "Blur Background", function() api["MainBlur"].Size = 25 end, function() api["MainBlur"].Size = 0 end, true)
+CreateTopBarOption("Toggle", "Blur Background", function() Api["MainBlur"].Size = 25 end, function() Api["MainBlur"].Size = 0 end, true)
 local rescale = CreateTopBarOption("Toggle", "Rescale", function() 
-	api["MainRescale"].Scale = cam.ViewportSize.X / 1920
+	Api["MainRescale"].Scale = cam.ViewportSize.X / 1920
 end, function()
-	api["MainRescale"].Scale = 1 
+	Api["MainRescale"].Scale = 1 
 end, true)
 cam:GetPropertyChangedSignal("ViewportSize"):connect(function()
 	if rescale["Enabled"] then
-		api["MainRescale"].Scale = cam.ViewportSize.X / 1920
+		Api["MainRescale"].Scale = cam.ViewportSize.X / 1920
 	end
 end)
 CreateTopBarOption("Toggle", "Enable Multi-Keybinding", function() end, function() end, false)
 local welcomemsg = CreateTopBarOption("Toggle", "GUI bind indicator", function() end, function() end, true)
 CreateTopBarOption("Toggle", "Smooth font", function()
-	for i,v in pairs(api["MainGui"]:GetDescendants()) do
+	for i,v in pairs(Api["MainGui"]:GetDescendants()) do
 		if (v:IsA("TextLabel") or v:IsA("TextButton")) and v.Name ~= "IconLabel" then
 			v.Font = Enum.Font.SourceSans
 		end
 	end
-	for i2,v2 in pairs(api["ObjectsThatCanBeSaved"]) do
+	for i2,v2 in pairs(Api["ObjectsThatCanBeSaved"]) do
 		if v2["Type"] == "NewToggle" then
 			v2["Object"].Parent:GetChildren()[2].Text = "                "..v2["Object"].Parent:GetChildren()[2].Name
 		end
@@ -1642,12 +1642,12 @@ CreateTopBarOption("Toggle", "Smooth font", function()
 		end
 	end
 end, function() 
-	for i,v in pairs(api["MainGui"]:GetDescendants()) do
+	for i,v in pairs(Api["MainGui"]:GetDescendants()) do
 		if (v:IsA("TextLabel") or v:IsA("TextButton")) and v.Name ~= "IconLabel" then
 			v.Font = Enum.Font.Sarpanch
 		end
 	end
-	for i2,v2 in pairs(api["ObjectsThatCanBeSaved"]) do
+	for i2,v2 in pairs(Api["ObjectsThatCanBeSaved"]) do
 		if v2["Type"] == "NewToggle" then
 			v2["Object"].Parent:GetChildren()[2].Text = "           "..v2["Object"].Parent:GetChildren()[2].Name
 		end
@@ -1663,7 +1663,7 @@ CreateTopBarOption("Toggle", "Show Tooltips", function() end, function() end, tr
 CreateTopBarOption("Toggle", "Discord integration", function() end, function() end, false)
 CreateTopBarOption("Toggle", "Notifications", function() end, function() end, true)
 CreateTopBarOption("Button", "Reset current profile", function()
-	for i,v in pairs(api["ObjectsThatCanBeSaved"]) do
+	for i,v in pairs(Api["ObjectsThatCanBeSaved"]) do
 		if (v["Type"] == "Button" or v["Type"] == "OptionsButton" or v["Type"] == "Toggle") and v["Api"]["Enabled"] then
 			v["Api"]["ToggleButton"](false)
 			if v["Type"] == "OptionsButton" and v["Api"]["Expanded"] then
@@ -1705,7 +1705,7 @@ CreateTopBarOption("Button", "Reset GUI positions", function() end)
 CreateTopBarOption("Button", "Sort GUI", function()
 	local tableofmodules = {}
 	local pos = UDim2.new(0, 6, 0, 6)
-	for i,v in pairs(api["ObjectsThatCanBeSaved"]) do
+	for i,v in pairs(Api["ObjectsThatCanBeSaved"]) do
 		if v["Type"]:match("Window") and v["Object"].Visible then
 			table.insert(tableofmodules, v["Object"])
 		end
@@ -1730,9 +1730,9 @@ RebindFunc = function()
 				local button = RebindGUI["Object"]
 				button.Text = "Press a key"
 				repeat wait() until pressedkey ~= ""
-				api["Settings"]["GUIObject"]["GUIKeybind"] = pressedkey
+				Api["Settings"]["GUIObject"]["GUIKeybind"] = pressedkey
 				pressedkey = ""
-				button.Text = "Bound to "..api["Settings"]["GUIObject"]["GUIKeybind"]
+				button.Text = "Bound to "..Api["Settings"]["GUIObject"]["GUIKeybind"]
 				captured = false
 				wait(1)
 				button.Text = "Rebind GUI"
@@ -1741,7 +1741,7 @@ RebindFunc = function()
 	end
 end
 
-api["LoadedAnimation"] = function()
+Api["LoadedAnimation"] = function()
 	if welcomemsg["Enabled"] then
 		local welcomeguitext = Instance.new("TextLabel")
 		welcomeguitext.Name = "WelcomeText"
@@ -1750,10 +1750,10 @@ api["LoadedAnimation"] = function()
 		welcomeguitext.Position = UDim2.new(0, 2, 0.05, 1)
 		welcomeguitext.BackgroundTransparency = 1
 		welcomeguitext.TextSize = 25
-		welcomeguitext.Text = "Press "..api["Settings"]["GUIObject"]["GUIKeybind"].." to open GUI"
+		welcomeguitext.Text = "Press "..Api["Settings"]["GUIObject"]["GUIKeybind"].." to open GUI"
 		welcomeguitext.TextColor3 = Color3.fromRGB(27, 42, 53)
 		welcomeguitext.Font = Enum.Font.SourceSans
-		welcomeguitext.Parent = api["MainGui"]
+		welcomeguitext.Parent = Api["MainGui"]
 		local welcomeguitext2 = welcomeguitext:Clone()
 		welcomeguitext2.Position = UDim2.new(0, -1, 0, -1)
 		welcomeguitext2.TextColor3 = Color3.fromRGB(0, 219, 180)
@@ -1768,7 +1768,7 @@ api["LoadedAnimation"] = function()
 		welcomeframe.BackgroundColor3 = Color3.fromRGB(34, 35, 38)
 		welcomeframe.BorderSizePixel = 0
 		welcomeframe.Position = UDim2.new(1, 0, 0.9, -40)
-		welcomeframe.Parent = api["MainGui"]
+		welcomeframe.Parent = Api["MainGui"]
 		local welcomeicon = Instance.new("TextLabel")
 		welcomeicon.Name = "WelcomeIcon"
 		welcomeicon.BackgroundTransparency = 1
@@ -1781,9 +1781,9 @@ api["LoadedAnimation"] = function()
 		local welcometext = Instance.new("TextLabel")
 		welcometext.Name = "WelcomeText"
 		welcometext.BackgroundTransparency = 1
-		welcometext.TextSize = 21 - (api["Settings"]["GUIObject"]["GUIKeybind"]:len() > 5 and 4 or 0)
-		welcometext.Text = "Finished Loading\nPress "..string.upper(api["Settings"]["GUIObject"]["GUIKeybind"]).." to open GUI"
-		welcometext.Position = UDim2.new(0, 32, 0, (api["Settings"]["GUIObject"]["GUIKeybind"]:len() > 5 and -1 or -3))
+		welcometext.TextSize = 21 - (Api["Settings"]["GUIObject"]["GUIKeybind"]:len() > 5 and 4 or 0)
+		welcometext.Text = "Finished Loading\nPress "..string.upper(Api["Settings"]["GUIObject"]["GUIKeybind"]).." to open GUI"
+		welcometext.Position = UDim2.new(0, 32, 0, (Api["Settings"]["GUIObject"]["GUIKeybind"]:len() > 5 and -1 or -3))
 		welcometext.Size = UDim2.new(0, 232, 0, 39)
 		welcometext.Font = Enum.Font.SourceSans
 		welcometext.TextXAlignment = Enum.TextXAlignment.Left
@@ -1822,11 +1822,11 @@ end
 
 local holdingcontrol = false
 
-api["KeyInputHandler"] = game:GetService("UserInputService").InputBegan:connect(function(input1)
+Api["KeyInputHandler"] = game:GetService("UserInputService").InputBegan:connect(function(input1)
 	if game:GetService("UserInputService"):GetFocusedTextBox() == nil then
-		if input1.KeyCode == Enum.KeyCode[api["Settings"]["GUIObject"]["GUIKeybind"]] then
+		if input1.KeyCode == Enum.KeyCode[Api["Settings"]["GUIObject"]["GUIKeybind"]] then
 			clickgui.Visible = not clickgui.Visible
-			api["MainBlur"].Enabled = clickgui.Visible
+			Api["MainBlur"].Enabled = clickgui.Visible
 		end
 		if input1.KeyCode == Enum.KeyCode.LeftShift then
 			holdingshift = true
@@ -1834,9 +1834,9 @@ api["KeyInputHandler"] = game:GetService("UserInputService").InputBegan:connect(
 		if input1.KeyCode == Enum.KeyCode.LeftControl then
 			holdingcontrol = true
 		end
-		if input1.UserInputType == Enum.UserInputType.MouseButton3 and api["FriendsObject"]["MiddleClickFriends"] then
+		if input1.UserInputType == Enum.UserInputType.MouseButton3 and Api["FriendsObject"]["MiddleClickFriends"] then
 			if mouse.Target.Parent:FindFirstChild("HumanoidRootPart") or mouse.Target.Parent:IsA("Accessory") and mouse.Target.Parent.Parent:FindFirstChild("HumanoidRootPart") then
-				api["FriendsObject"]["MiddleClickFunc"](mouse.Target.Parent:IsA("Accessory") and mouse.Target.Parent.Parent.Name or mouse.Target.Parent.Name)
+				Api["FriendsObject"]["MiddleClickFunc"](mouse.Target.Parent:IsA("Accessory") and mouse.Target.Parent.Parent.Name or mouse.Target.Parent.Name)
 			end
 		end
 		if holdingcontrol and (input1.KeyCode == Enum.KeyCode.Left or input1.KeyCode == Enum.KeyCode.Right) and capturedslider ~= nil then
@@ -1851,17 +1851,17 @@ api["KeyInputHandler"] = game:GetService("UserInputService").InputBegan:connect(
 			local hah = string.gsub(tostring(input1.KeyCode), "Enum.KeyCode.", "")
 			pressedkey = hah
 		end
-		for modules,aapi in pairs(api["ObjectsThatCanBeSaved"]) do
-			if (aapi["Type"] == "OptionsButton" or aapi["Type"] == "Button") and (aapi["Api"]["Keybind"] ~= nil and aapi["Api"]["Keybind"] ~= "") then
-				if input1.KeyCode == Enum.KeyCode[aapi["Api"]["Keybind"]] and aapi["Api"]["Keybind"] ~= api["Settings"]["GUIObject"]["GUIKeybind"] then
-					aapi["Api"]["ToggleButton"](false)
+		for modules,aApi in pairs(Api["ObjectsThatCanBeSaved"]) do
+			if (aApi["Type"] == "OptionsButton" or aApi["Type"] == "Button") and (aApi["Api"]["Keybind"] ~= nil and aApi["Api"]["Keybind"] ~= "") then
+				if input1.KeyCode == Enum.KeyCode[aApi["Api"]["Keybind"]] and aApi["Api"]["Keybind"] ~= Api["Settings"]["GUIObject"]["GUIKeybind"] then
+					aApi["Api"]["ToggleButton"](false)
 				end
 			end
 		end
 	end
 end)
 
-api["KeyInputHandler2"] = game:GetService("UserInputService").InputEnded:connect(function(input1)
+Api["KeyInputHandler2"] = game:GetService("UserInputService").InputEnded:connect(function(input1)
 	if input1.KeyCode == Enum.KeyCode.LeftShift then
 		holdingshift = false
 	end
@@ -1870,4 +1870,4 @@ api["KeyInputHandler2"] = game:GetService("UserInputService").InputEnded:connect
 	end
 end)
 
-return api
+return Api
